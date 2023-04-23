@@ -1,0 +1,120 @@
+﻿@{
+    ViewData["Title"] = "RoomBookingAddEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Hotel_Project.Areas.HT_RoomBooking.Models.HT_RoomBookingModel;
+
+<div class="row">
+    <div class="col-md-12">
+
+        <h2>@TempData["HT_RoomBooking_Insert_Msg"]</h2>
+        <div class="container">
+            <h2>Room Booking</h2>
+            <hr />
+            <form method="post" asp-area="HT_RoomBooking" asp-controller="HT_RoomBooking">
+
+                @Html.HiddenFor(x => x.RoomBookingID)
+
+                <div class="form-group mb-7">
+                    <label><span class="text-danger">*</span>Document</label>
+                    <select class="form-select " data-control="select2" data-placeholder="Select Document" data-allow-clear="true" asp-for="DocumentID" asp-items="@(new SelectList(ViewBag.DocumentList, "DocumentID", "DocumentType"))" onchange="funOnStateChange();">
+                        <option value=""></option>
+                    </select>
+                    <span asp-validation-for="DocumentID" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-7">
+                    <label><span class="text-danger">*</span>RoomType</label>
+                    <select class="form-select " data-control="select2" data-placeholder="Select RoomType" data-allow-clear="true" asp-for="RoomTypeID" asp-items="@(new SelectList(ViewBag.RoomTypeList,"RoomTypeID","RoomTypeName"))">
+                        <option value=""></option>
+                    </select>
+                    <span asp-validation-for="RoomTypeID" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-7">
+                    <input type="text" class="form-control " id="floatingInput" asp-for="FirstName" placeholder="Enter First Name Here..." />
+                    <label for="floatingInput"><span class="text-danger">*</span>FirstName</label>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-7">
+                    <input type="text" class="form-control " id="floatingInput" asp-for="MiddleName" placeholder="Enter Middle Name Here..." />
+                    <label for="floatingInput"><span class="text-danger">*</span>MiddleName</label>
+                    <span asp-validation-for="MiddleName" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-7">
+                    <input type="text" class="form-control " id="floatingInput" asp-for="LastName" placeholder="Enter Last Name Here..." />
+                    <label for="floatingInput"><span class="text-danger">*</span>LastName</label>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+                 <div class="form-floating mb-7">
+                    <input type="text" class="form-control " id="floatingInput" asp-for="MobileNo" placeholder="Enter Mobile No Here..." />
+                    <label for="floatingInput"><span class="text-danger">*</span>Mobile No</label>
+                    <span asp-validation-for="MobileNo" class="text-danger"></span>
+                </div>
+
+                 <div class="form-floating mb-7">
+                    <input type="text" class="form-control " id="floatingInput" asp-for="Email" placeholder="Enter Email Here..." />
+                    <label for="floatingInput"><span class="text-danger">*</span>Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-7">
+                    <input type="text" class="form-control " id="floatingInput" asp-for="City" placeholder="Enter City Here..." />
+                    <label for="floatingInput"><span class="text-danger">*</span>City</label>
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-7">
+                    <input type="text" class="form-control " id="floatingInput" asp-for="State" placeholder="Enter State Here..." />
+                    <label for="floatingInput"><span class="text-danger">*</span>State</label>
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-7">
+                    <input type="text" class="form-control " id="floatingInput" asp-for="Country" placeholder="Enter Country Here..." />
+                    <label for="floatingInput"><span class="text-danger">*</span>Country</label>
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-7">
+                    <input type="text" class="form-control " id="floatingInput" asp-for="DocumentNumber" placeholder="Enter Document Numbre Here..." />
+                    <label for="floatingInput"><span class="text-danger">*</span>Document Number</label>
+                    <span asp-validation-for="DocumentNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-7">
+                    <label class="form-label">Image</label>
+                    <input type="file" class="form-control " asp-for="File" placeholder="Upload File." />
+                </div>
+
+                @Html.HiddenFor(x => x.PhotoPath)
+
+                @*
+                @Html.HiddenFor(x => x.CreationDate)
+                @Html.HiddenFor(x => x.ModificationDate)
+                *@
+
+                <input type="hidden" class="form-control" asp-for="UserID" value="@ViewBag.UserID" />
+
+                <div class="row">
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-success " asp-action="Save">Save</button>
+                        &nbsp;
+                        <a class="btn btn-danger " asp-action="Index">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

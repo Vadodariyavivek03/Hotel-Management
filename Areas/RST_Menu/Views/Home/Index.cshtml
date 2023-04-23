@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "MenuList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Data;
+@model DataTable;
+
+<div class="container-fluild">
+
+    <div class="container">
+        <div>
+            <h2>@TempData["RST_Menu_DeleteByPK_Msg"]</h2>
+            <h2>@TempData["RST_Menu_UpdateByPK_Msg"]</h2>
+        </div>
+
+        <div class="container">
+            <h2>Search Box</h2>
+            <hr />
+            <form method="post" asp-area="RST_Menu" asp-controller="RST_Menu">
+                <div class="row">
+
+                    <div class="form-floating col-4">
+                        <input type="text" class="form-control " id="floatingInput" name="MenuName" placeholder="Enter Food Menu here.." value="@ViewBag.MenuName" />
+                        <label for="floatingInput">&nbsp;&nbsp; Menu Name</label>
+                    </div>
+                    <div class="form-floating col-4">
+                        <input type="text" class="form-control " id="floatingInput" name="Price" placeholder="Enter Food Price here.." value="@ViewBag.Price" />
+                        <label for="floatingInput">&nbsp;&nbsp; Price</label>
+                    </div>
+
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-success " asp-action="Search">Search</button>
+                        &nbsp;
+                        <a class="btn btn-danger " asp-action="Index">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr />
+
+        <div class="d-flex">
+            <div style="flex-grow:9">
+                <span style="font-size: 30px; font-weight: 700; margin-bottom: 10px">Food Menu List</span>
+            </div>
+            <div style="flex-grow:1">
+                <form asp-area="RST_Menu" asp-controller="RST_Menu">
+                    <button type="submit" class="btn btn-primary " asp-action="Add">Insert Record</button>
+                </form>
+            </div>
+            <hr />
+        </div>
+    </div>
+    <br />
+    <div class="table-responsive pb-3 border-dark border-bottom border-3 align-middle">
+        <table id="kt_datatable_dom_positioning" class="table table-striped table-row-bordered gy-5 gs-7 border rounded">
+            <thead>
+                <tr class="fw-bold fs-6 text-gray-800 px-7">
+                    <th scope="col">Image</th>
+                    <th scope="col">Menu Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Price</th>
+                   @* <th scope="col">Creation Date</th>
+                    <th scope="col">Modification Date</th>*@
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            <tbody>
+                    @foreach (DataRow dr in Model.Rows)
+                    {
+                    <tr>
+                        <td><img alt="logo" src="@Url.Content(String.Format("~/upload/{0}",dr["PhotoPath"]))" style="height :auto; width:50px;" /> </td>
+
+                        <td>@dr["MenuName"]</td>
+                        <td>@dr["Description"]</td>
+                        <td>@dr["Price"]</td>
+
+                       @* <td>@Convert.ToDateTime(dr["CreationDate"]).ToString("dd-MM-yyyy")</td>
+                        <td>@Convert.ToDateTime(dr["ModificationDate"]).ToString("dd-MM-yyyy")</td>*@
+
+                        <td>
+                            <form method="post" asp-area="RST_Menu" asp-controller="RST_Menu">
+                                    @*<input type="hidden" name="CountryID" value="@Convert.ToInt32(dr["CountryID"])" />*@
+                                <button type="submit" class="btn btn-primary " asp-action="Add" asp-route-MenuItemID="@Convert.ToInt32(dr["MenuItemID"])"><i class="fa-solid fa-pen-to-square"></i></button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post" asp-area="RST_Menu" asp-controller="RST_Menu">
+                                <input type="hidden" name="MenuItemID" value="@Convert.ToInt32(dr["MenuItemID"])" />
+                                <button type="submit" class="btn btn-danger " asp-action="Delete" onclick="return Take_Confirmation()"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts
+    {
+    <script>
+        function Take_Confirmation() {
+            if (confirm("Are You Sure You Want To Delete?"))
+                return true;
+            else
+                return false;
+        }
+                        //$(document).ready(function () {
+                        //    $(".sample_1")[1].on("keyup", function () {
+                        //        var value = $(this).val().toLowerCase();
+                        //        $("#sample_2 tr").filter(function () {
+                        //            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                        //        });
+                        //    });
+                        //});
+    </script>
+}

@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Country Add/Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model Hotel_Project.Areas.RST_Menu.Models.RST_MenuModel;
+
+<div class="row">
+    <div class="col-md-12">
+
+        <h2>@TempData["RST_Menu_Insert_Msg"]</h2>
+        <div class="container">
+            <h2>Food Menu</h2>
+            <hr />
+            <form method="post" asp-area="RST_Menu" asp-controller="RST_Menu">
+
+                @Html.HiddenFor(x => x.MenuItemID)
+
+                <div class="form-group mb-7">
+                    <label><span class="text-danger">*</span>MenuType</label>
+                    <select class="form-select " data-control="select2" data-placeholder="Select MenuType" data-allow-clear="true" asp-for="MenuTypeID" asp-items="@(new MenuTypeList(ViewBag.DocumentList, "MenuTypeID", "MenuTypeName"))" onchange="funOnStateChange();">
+                        <option value=""></option>
+                    </select>
+                    <span asp-validation-for="MenuTypeID" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-7">
+                    <input type="text" class="form-control " id="floatingInput" asp-for="MenuName" placeholder="Enter Food Name here.." />
+                    <label for="floatingInput"><span class="text-danger">*</span>Menu Name</label>
+                    <span asp-validation-for="MenuName" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-7">
+                    <input type="text" class="form-control " id="floatingInput" asp-for="Description" placeholder="Enter Food Description here.." />
+                    <label for="floatingInput"><span class="text-danger">*</span>Description</label>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-7">
+                    <input type="text" class="form-control " id="floatingInput" asp-for="Price" placeholder="Enter Food Price here.." />
+                    <label for="floatingInput"><span class="text-danger">*</span>Price</label>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-7">
+                    <label class="form-label">Image</label>
+                    <input type="file" class="form-control " asp-for="File" placeholder="Upload File." />
+                </div>
+
+               @* @Html.HiddenFor(x => x.CreationDate)
+                @Html.HiddenFor(x => x.ModificationDate)*@
+
+                @Html.HiddenFor(x => x.PhotoPath)
+                
+                <input type="hidden" class="form-control" asp-for="UserID" value="@ViewBag.UserID" />
+
+                <div class="row">
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-success " asp-action="Save">Save</button>
+                        &nbsp;
+                        <a class="btn btn-light-danger " asp-action="Index">Cancel</a>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

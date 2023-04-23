@@ -1,0 +1,128 @@
+﻿@{
+    ViewData["Title"] = "RoomTypeList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Data;
+@model DataTable;
+
+<div class="container-fluid">
+    <div class="portlet-body">
+        <div>
+            <h2>@TempData["HT_RoomType_DeleteByPK_Msg"]</h2>
+            <h2>@TempData["HT_RoomType_UpdateByPK_Msg"]</h2>
+        </div>
+
+        <div class="container">
+            <h2>Search Box</h2>
+            <hr />
+            <form method="post" asp-area="HT_RoomType" asp-controller="HT_RoomType">
+                <div class="row">
+
+                    <div class="form-floating mb-7 col-4">
+                        <input type="text" name="RoomTypeName" class="form-control " id="floatingInput" placeholder="Enter RoomTypeName here.." value="@ViewBag.RoomTypeName" />
+                        <label for="floatingInput">&nbsp;&nbsp; RoomTypeName</label>
+                    </div>
+
+                    <div class="form-floating mb-7 col-4">
+                        <input type="text" name="RoomNumber" class="form-control " id="floatingInput" placeholder="Enter RoomNumber here.." value="@ViewBag.RoomNumber" />
+                        <label for="floatingInput">&nbsp;&nbsp; RoomNumber</label>
+                    </div>
+
+                    <div class="form-floating mb-7 col-4">
+                        <input type="text" name="Capacity" class="form-control " id="floatingInput" placeholder="Enter Capacity here.." value="@ViewBag.Capacity" />
+                        <label for="floatingInput">&nbsp;&nbsp; Capacity</label>
+                    </div>
+
+                    <div class="form-floating mb-7 col-4">
+                        <input type="text" id="floatingInput" class="form-control " name="Facilities" placeholder="Enter Facilities here.." value="@ViewBag.Facilities" />
+                        <label for="floatingInput">&nbsp;&nbsp; Facilities</label>
+                    </div>
+
+                    <div class="form-floating mb-7 col-4">
+                        <input type="text" name="Price" class="form-control " id="floatingInput" placeholder="Enter Price here.." value="@ViewBag.Price" />
+                        <label for="floatingInput">&nbsp;&nbsp; Price</label>
+                    </div>
+
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-success " asp-action="Search">Search</button>
+                        &nbsp;
+                        <a class="btn btn-danger " asp-action="Index">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr />
+
+        <div class="d-flex">
+
+            <div style="flex-grow:9">
+                <span style="font-size: 30px; font-weight: 700; margin-bottom: 10px">RoomType List</span>
+            </div>
+
+            <div style="flex-grow:1">
+
+                <form asp-area="HT_RoomType" asp-controller="HT_RoomType">
+                    <button type="submit" class="btn btn-primary " asp-action="Add">Insert Record</button>
+                </form>
+            </div>
+            <hr />
+        </div>
+    </div>
+    <br />
+
+    <div class="table-responsive pb-3 border-dark border-bottom border-3 align-middle">
+        <table id="kt_datatable_dom_positioning" class="table table-striped table-row-bordered gy-5 gs-7 border rounded">
+            <thead>
+                <tr class="fw-bold fs-6 text-gray-800 px-7">
+                  @*  <th scope="col">Image</th>*@
+                    <th scope="col">RoomTypeName</th>
+                    <th scope="col">RoomNumber</th>
+                    <th scope="col">Capacity</th>
+                    <th scope="col">Facilities</th>
+                    <th scope="col">Price</th>
+                   @* <th scope="col">Creation Date</th>
+                    <th scope="col">Modification Date</th>*@
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DataRow dr in Model.Rows)
+                {
+                    <tr>
+                        @*<td><img alt="logo" src="@Url.Content(String.Format("~/upload/{0}",dr["PhotoPath"]))" style="height :auto; width:50px;" /> </td>*@
+                        <td>@dr["RoomTypeName"]</td>
+                        <td>@dr["RoomNumber"]</td>
+                        <td>@dr["Capacity"]</td>
+                        <td>@dr["Facilities"]</td>
+                        <td>@dr["Price"]</td>
+                       @* <td>@Convert.ToDateTime(dr["CreationDate"]).ToString("dd-MM-yyyy")</td>
+                        <td>@Convert.ToDateTime(dr["ModificationDate"]).ToString("dd-MM-yyyy")</td>*@
+                        <td>
+                            <form asp-area="HT_RoomType" asp-controller="HT_RoomType">
+                                <button type="submit" class="btn btn-primary " asp-action="Add" asp-route-RoomTypeID="@Convert.ToInt32(dr["RoomTypeID"])"><i class="fa-solid fa-pen-to-square"></i></button>
+                            </form>
+                        </td>
+                        <td>
+                            <form asp-area="HT_RoomType" asp-controller="HT_RoomType">
+                                <input type="hidden" name="RoomTypeID" value="@Convert.ToInt32(dr["RoomTypeID"])" />
+                                <button type="submit" class="btn btn-danger " asp-action="Delete" onclick="return Take_Confirmation()"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        function Take_Confirmation() {
+            if (confirm("Are You Sure You Want To Delete?"))
+                return true;
+            else
+                return false;
+        }
+    </script>
+}

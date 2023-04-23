@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "DocumentList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Data;
+@model DataTable;
+
+<div class="container-fluid">
+    <div class="portlet-body">
+        <div>
+            <h2>@TempData["HT_Document_Update_Msg"]</h2>
+            <h2>@TempData["HT_Document_Delete_Msg"]</h2>
+        </div>
+
+        <div class="container">
+            <h2>Search Box</h2>
+            <hr />
+            <form method="post" asp-area="HT_Document" asp-controller="HT_Document">
+                <div class="row">
+                    <div class="form-floating mb-7 col-4">
+                        <input type="text" name="DocumentType" class="form-control " id="floatingInput" placeholder="Enter DocumentType here.." value="@ViewBag.DocumentType" />
+                        <label for="floatingInput">&nbsp;&nbsp; Document Type</label>
+                    </div>
+
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-success " asp-action="Search">Search</button>
+                        &nbsp;
+                        <a class="btn btn-danger " asp-action="Index">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr />
+
+        <div class="d-flex">
+            <div style="flex-grow:9">
+                <span style="font-size: 20px; font-weight: 700; margin-bottom: 10px">Document List</span>
+            </div>
+            <div style="flex-grow:1">
+                <form asp-area="HT_Document" asp-controller="HT_Document" >
+                    <button type="submit" class="btn btn-primary " asp-action="Add">Insert Record</button>
+                </form>
+            </div>
+            <hr />
+        </div>
+    </div>
+
+    <div class="table-responsive pb-3 border-dark border-bottom border-3 align-middle">
+        <table id="kt_datatable_dom_positioning" class="table table-striped table-row-bordered gy-5 gs-7 border rounded">
+            <thead>
+                <tr class="fw-bold fs-6 text-gray-800 px-7">
+
+                    <th scope="col">Document Type</th>
+                    <th scope="col">Creation Date</th>
+                    <th scope="col">Modification Date</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            <tbody>
+                    @foreach (DataRow dr in Model.Rows)
+                    {
+                    <tr>
+                        <td>@dr["DocumentType"]</td>
+                        <td>@Convert.ToDateTime(dr["CreationDate"]).ToString("dd-MM-yyyy")</td>
+                        <td>@Convert.ToDateTime(dr["ModificationDate"]).ToString("dd-MM-yyyy")</td>
+                        <td>
+                            <form asp-area="HT_Document" asp-controller="HT_Document">
+                                <button type="submit" class="btn btn-primary " asp-action="Add" asp-route-DocumentID="@Convert.ToInt32(dr["DocumentID"])"><i class="fa-solid fa-pen-to-square"></i></button>
+                            </form>
+                        </td>
+                        <td>
+                            <form asp-area="HT_Document" asp-controller="HT_Document">
+                                <input type="hidden" name="DocumentID" value="@Convert.ToInt32(dr["DocumentID"])" />
+                                <button type="submit" class="btn btn-danger " asp-action="Delete" onclick="return Take_Confirmation()"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        function Take_Confirmation() {
+            if (confirm("Are You Sure You Want To Delete?"))
+                return true;
+            else
+                return false;
+        }
+    </script>
+}

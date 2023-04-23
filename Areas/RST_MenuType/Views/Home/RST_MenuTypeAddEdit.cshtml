@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "MenuType Add/Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Hotel_Project.Areas.RST_MenuType.Models.RST_MenuTypeModel;
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>@TempData["RST_MenuType_Insert_Msg"]</h2>
+
+        <div class="container">
+            <h2>Menu Type</h2>
+            <hr />
+            <form method="post" asp-area="RST_MenuType" asp-controller="RST_MenuType">
+
+                @Html.HiddenFor(x => x.MenuTypeID)
+
+               <div class="form-floating mb-7">
+                    <input type="text" class="form-control " id="floatingInput" asp-for="MenuTypeName" placeholder="Enter MenuType here.." />
+                    <label for="floatingInput"><span class="text-danger">*</span>Menu Type</label>
+                    <span asp-validation-for="MenuTypeName" class="text-danger"></span>
+                </div>
+
+            @* <div class="form-group mb-7">
+                   <label class="form-label">Image</label>
+                   <input type="file" class="form-control " asp-for="File" placeholder="Upload File." />
+               </div>*@
+
+               @* @Html.HiddenFor(x => x.CreationDate)
+                @Html.HiddenFor(x => x.PhotoPath)
+                @Html.HiddenFor(x => x.ModificationDate)*@
+
+                <input type="hidden" class="form-control" asp-for="UserID" value="@ViewBag.UserID" />
+
+                <div class="row">
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-light-success " asp-action="Save">Save</button>
+                        &nbsp;
+                        <a class="btn btn-light-danger" asp-action="Index">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
